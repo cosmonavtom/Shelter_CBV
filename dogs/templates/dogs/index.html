@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<H1>Стартовая страница. Здесь пока пусто</H1>
-<H2>Можно посмотреть <a href="/categories">Категории</a></H2>
+{% extends 'dogs/base.html' %}
+{% block content %}
+<div class="row">
+    {% for object in object_list %}
+        {% include 'dogs/includes/inc_category.html' with object=object %}
+    {% endfor %}
+</div>
 
-</body>
-</html>
+{% endblock %}

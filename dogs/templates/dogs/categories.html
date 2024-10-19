@@ -1,12 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<H1>Здесь тоже пока пусто</H1>
-<H2>но можно посмотреть <a href="/categories/1/dogs">собачек</a></H2>
-<H3>З.Ы. Правда там тоже пусто</H3>
-</body>
-</html>
+{% extends 'dogs/base.html' %}
+
+{% block content %}
+    <div class="row">
+        {% for object in object_list %}
+            {% include 'dogs/includes/inc_category.html' with object=object %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
