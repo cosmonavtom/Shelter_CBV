@@ -7,6 +7,6 @@ def validate_password(field):
     if not bool(re.match(pattern, field)):
         print('Must contain A-Z, a-z letters and 0-9 numbers')
         raise ValidationError('Must contain A-Z, a-z letters and 0-9 numbers')
-    if not 3 <= len(field) <= 12:
-        print('Password length must be between 3 and 12')
-        raise ValidationError('Password length must be between 3 and 12')
+    if not 6 <= len(field) <= 12:
+        print('Password length must be between 6 and 12')
+        raise ValidationError('Password length must be between 6 and 12')
