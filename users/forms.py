@@ -39,3 +39,9 @@ class UserLoginForm(StyleFormMixin, forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+class UserUpdateForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'phone', 'telegram', 'avatar',)
+
+
