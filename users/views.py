@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from users.forms import UserRegisterForm, UserLoginForm, UserUpdateForm
+from users.forms import UserRegisterForm, UserLoginForm, UserUpdateForm, UserPasswordChangeForm
 
 
 def user_register_view(request):
@@ -73,8 +73,8 @@ def user_update_view(request):
 @login_required
 def user_change_password_view(request):
     user_object = request.user
+    form = UserPasswordChangeForm(user_object, request.POST)
     if request.method == 'POST':
-        form = UserPasswordChangeForm(user_object, request.POST)
         if form.is_valid():
             user_object = form.save()
             update_session_auth_hash(request, user_object)
@@ -83,11 +83,10 @@ def user_change_password_view(request):
         else:
             messages.error(request, 'не удалось изменить пароль!')
 
-    form = UserPasswordChangeForm()
     context = {
         'form': form
     }
-    return render(request, 'users/user_change_password.html', context)
+    return render(request, 'users/change_password_user.html', context)
 
 
 def user_logout_view(request):
