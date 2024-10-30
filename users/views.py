@@ -88,7 +88,7 @@ def user_change_password_view(request):
             messages.success(request, 'Пароль был успешно изменён!')
             return HttpResponseRedirect(reverse('users:profile_user'))
         else:
-            messages.error(request, 'не удалось изменить пароль!')
+            messages.error(request, 'Hе удалось изменить пароль!')
 
     context = {
         'form': form
