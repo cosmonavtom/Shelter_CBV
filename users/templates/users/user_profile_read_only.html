@@ -8,7 +8,7 @@
                 <div class="card-header">
                     Мой профиль
                 </div>
-                <img class="card_img-top"
+                <img class="card-img-top"
                      src="{{ user.avatar|user_media }}" width="300" height="700"
                      alt="Card image cap">
                 <div class="card-body">
@@ -17,8 +17,14 @@
                     <span class="card-text">Фамилия: {{user.last_name}}</span><br>
                     <span class="card-text">Телефон: {{user.phone|default:"Не указано"}}</span><br>
                     <span class="card-text">Телеграм: {{user.telegram|default:"Не указано"}}</span><br>
-                    <button class="btn btn-outline-warning">
+                    <button class="btn btn-outline-primary">
                         <a class="btn btn-link" href="{% url 'users:update_user' %}">Обновить</a>
+                    </button>
+                    <button class="btn btn-outline-warning">
+                        <a class="btn btn-link" href="{% url 'users:change_password_user' %}">Изменить пароль</a>
+                    </button>
+                    <button class="btn btn-outline-danger">
+                        <a class="btn btn-link" href="{% url 'users:user_generate_new_password' %}">Сгенерить пароль</a>
                     </button>
                 </div>
                 <div class="card-footer"></div>

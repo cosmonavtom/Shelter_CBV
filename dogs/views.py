@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from dogs.models import Category, Dog
 from dogs.forms import DogForm
@@ -14,6 +15,7 @@ def index(request):
     return render(request, 'dogs/index.html', context)
 
 
+@login_required
 def categories(request):
     context = {
         'object_list': Category.objects.all(),
@@ -22,6 +24,7 @@ def categories(request):
     return render(request, 'dogs/categories.html', context)
 
 
+@login_required
 def category_dogs(request, pk):
     category_item = Category.objects.get(pk=pk)
     context = {
@@ -32,6 +35,7 @@ def category_dogs(request, pk):
     return render(request, 'dogs/dogs.html', context)
 
 
+@login_required
 def dogs_list_view(request):
     context = {
         'object_list': Dog.objects.all(),
@@ -40,15 +44,23 @@ def dogs_list_view(request):
     return render(request, 'dogs/dogs.html', context)
 
 
+@login_required
 def dog_create_view(request):
     if request.method == 'POST':
         form = DogForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            dog_object = form.save()
+            dog_object.owner = request.user
+            dog_object.save()
             return HttpResponseRedirect(reverse('dogs:list_dogs'))
-    return render(request, 'dogs/create.html', {'form': DogForm()}, )
+    context = {
+        'title': 'Добавление питомца',
+        'form': DogForm(),
+    }
+    return render(request, 'dogs/create.html', context)
 
 
+@login_required
 def dog_detail_view(request, pk):
     context = {
         'object': Dog.objects.get(pk=pk),
@@ -57,6 +69,7 @@ def dog_detail_view(request, pk):
     return render(request, 'dogs/detail.html', context)
 
 
+@login_required
 def dog_update_view(request, pk):
     # dog_object = Dog.objects.get(pk=pk) # Второй способ
     dog_object = get_object_or_404(Dog, pk=pk)
@@ -66,10 +79,11 @@ def dog_update_view(request, pk):
             dog_object = form.save()
             dog_object.save()
             return HttpResponseRedirect(reverse('dogs:detail_dog', args={pk: pk}))
-    return render(request, 'dogs/update.html', {
-        'object': dog_object,
+    context = {
+        'dog_object': dog_object,
         'form': DogForm(instance=dog_object)
-    }, )
+    }
+    return render(request, 'dogs/update.html', context)
 
 
 def dog_delete_view(request, pk):
@@ -80,4 +94,3 @@ def dog_delete_view(request, pk):
     return render(request, 'dogs/delete.html', {
         'object': dog_object,
     })
-

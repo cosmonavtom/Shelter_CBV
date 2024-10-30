@@ -1,5 +1,7 @@
 from django import forms
 
+from django.contrib.auth.forms import PasswordChangeForm
+
 from users.models import User
 from users.validators import validate_password
 
@@ -18,7 +20,8 @@ class UserForm(StyleFormMixin, forms.ModelForm):
 
 
 class UserRegisterForm(StyleFormMixin, forms.ModelForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput, min_length=6, max_length=12)
+    # password = forms.CharField(label='Пароль', widget=forms.PasswordInput, min_length=6, max_length=12)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
 
     class Meta:
@@ -45,3 +48,5 @@ class UserUpdateForm(StyleFormMixin, forms.ModelForm):
         fields = ('email', 'first_name', 'last_name', 'phone', 'telegram', 'avatar',)
 
 
+class UserPasswordChangeForm(StyleFormMixin, PasswordChangeForm):
+    pass
