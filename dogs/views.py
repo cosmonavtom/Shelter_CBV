@@ -45,18 +45,20 @@ def dogs_list_view(request):
 
 
 @login_required
-
 def dog_create_view(request):
     if request.method == 'POST':
         form = DogForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('dogs:list_dogs'))
-    return render(request, 'dogs/create.html', {'form': DogForm()}, )
+    context = {
+        'title': 'Добавление питомца',
+        'form': DogForm(),
+    }
+    return render(request, 'dogs/create.html', context)
 
 
 @login_required
-
 def dog_detail_view(request, pk):
     context = {
         'object': Dog.objects.get(pk=pk),
@@ -66,7 +68,6 @@ def dog_detail_view(request, pk):
 
 
 @login_required
-
 def dog_update_view(request, pk):
     # dog_object = Dog.objects.get(pk=pk) # Второй способ
     dog_object = get_object_or_404(Dog, pk=pk)
@@ -76,10 +77,11 @@ def dog_update_view(request, pk):
             dog_object = form.save()
             dog_object.save()
             return HttpResponseRedirect(reverse('dogs:detail_dog', args={pk: pk}))
-    return render(request, 'dogs/update.html', {
-        'object': dog_object,
+    context = {
+        'dog_object': dog_object,
         'form': DogForm(instance=dog_object)
-    }, )
+    }
+    return render(request, 'dogs/update.html', context)
 
 
 def dog_delete_view(request, pk):
