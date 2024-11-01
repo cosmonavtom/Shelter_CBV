@@ -1,0 +1,122 @@
+[
+  {
+    "model": "dogs.category",
+    "pk": 1,
+    "fields": {
+      "name": "Овчарка",
+      "description": "Служебная собака"
+    }
+  },
+  {
+    "model": "dogs.category",
+    "pk": 2,
+    "fields": {
+      "name": "Колли",
+      "description": "Популярная из-за кино"
+    }
+  },
+  {
+    "model": "dogs.category",
+    "pk": 3,
+    "fields": {
+      "name": "Ши-тцу",
+      "description": "Императорская собака"
+    }
+  },
+  {
+    "model": "dogs.category",
+    "pk": 4,
+    "fields": {
+      "name": "Чихуахуа",
+      "description": "Нихуахуа чихуахуа"
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10010,
+    "fields": {
+      "name": "Лесси",
+      "category": 2,
+      "photo": "dogs/Colli.png",
+      "birth_date": "2020-08-23",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10011,
+    "fields": {
+      "name": "Малинэ",
+      "category": 2,
+      "photo": "dogs/Colli2.jpeg",
+      "birth_date": "2023-04-22",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10012,
+    "fields": {
+      "name": "Колли",
+      "category": 2,
+      "photo": "dogs/Colli3.jpeg",
+      "birth_date": "1924-12-02",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10013,
+    "fields": {
+      "name": "Маленькая Леди",
+      "category": 3,
+      "photo": "dogs/ShiTsu.jpeg",
+      "birth_date": "2023-08-15",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10014,
+    "fields": {
+      "name": "Мухтар",
+      "category": 1,
+      "photo": "dogs/Shepard.jpeg",
+      "birth_date": "2022-05-05",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10015,
+    "fields": {
+      "name": "Пушок",
+      "category": 1,
+      "photo": "dogs/Shepard2.jpeg",
+      "birth_date": "2021-06-12",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10016,
+    "fields": {
+      "name": "Чихушка",
+      "category": 4,
+      "photo": "dogs/chikhuahua.jpeg",
+      "birth_date": "2021-09-18",
+      "owner": null
+    }
+  },
+  {
+    "model": "dogs.dog",
+    "pk": 10017,
+    "fields": {
+      "name": "Рен",
+      "category": 4,
+      "photo": "dogs/ren.jpg",
+      "birth_date": "1990-10-17",
+      "owner": null
+    }
+  }
+]
