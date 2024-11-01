@@ -1,14 +1,10 @@
 import random
 import string
 
-from django.http import HttpResponseRedirect, HttpResponse
-
 from django.contrib.auth.views import LoginView, PasswordChangeView, LogoutView
 from django.views.generic import CreateView, UpdateView
-from django.shortcuts import render, reverse, redirect
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.shortcuts import reverse, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.urls import reverse_lazy
 
 from users.models import User
