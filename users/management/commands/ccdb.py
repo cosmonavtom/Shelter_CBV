@@ -4,6 +4,7 @@ from config.settings import DATABASE, USER, PASSWORD, HOST
 
 
 class Command(BaseCommand):
+
     def handle(self, *args, **options):
         ConnectionString = f'''DRIVER ={{ODBC Driver 17 for SQL Server}};
                                 SERVER={HOST};
@@ -12,12 +13,13 @@ class Command(BaseCommand):
                                 PWD={PASSWORD}'''
         try:
             conn = pyodbc.connect(ConnectionString)
-            conn.autocommit = True
-            conn.execute(fr"CREATE DATABASE Shelter;")
         except pyodbc.ProgrammingError as ex:
             print(ex)
         else:
-            print('DB Shelter created')
-        finally:
-            conn.close()
-
+            conn.autocommit = True
+            try:
+                conn.execute(fr"CREATE DATABASE {DATABASE}")
+            except pyodbc.ProgrammingError as ex:
+                print(ex)
+            else:
+                print(f'DB {DATABASE} created')
