@@ -1,6 +1,6 @@
 from django import forms
 
-from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, AuthenticationForm
 
 from users.models import User
 from users.validators import validate_password
@@ -29,13 +29,12 @@ def clean_password2(self):
     temp_data = self.cleaned_data
     validate_password(temp_data['password1'])
     if temp_data['password1'] != temp_data['password2']:
-        raise forms.ValidationError('Passwords don\'t match.')
+        raise forms.ValidationError('password_mismatch')
     return temp_data['password2']
 
 
-class UserLoginForm(StyleFormMixin, forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+class UserLoginForm(StyleFormMixin, AuthenticationForm):
+    pass
 
 
 class UserUpdateForm(StyleFormMixin, forms.ModelForm):
