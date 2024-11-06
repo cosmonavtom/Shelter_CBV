@@ -4,5 +4,5 @@ from users.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'email', 'pk', 'is_active')
+    list_display = ('last_name', 'first_name', 'email', 'role', 'pk', 'is_active')
     list_filter = ('last_name',)
