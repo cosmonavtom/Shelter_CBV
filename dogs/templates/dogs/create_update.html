@@ -1,48 +1,6 @@
 {% extends 'dogs/base.html' %}
 {% load my_tags %}
 
-<!--<form method="post" enctype="multipart/form-data" class="row">-->
-<!--    <div class="col-6">-->
-<!--        <div class="card">-->
-<!--            <div class="card-header">-->
-<!--                {% if object %}-->
-<!--                Редактирование собаки-->
-<!--                {% else %}-->
-<!--                Добавление собаки-->
-<!--                {% endif %}-->
-<!--            </div>-->
-<!--            <div class="card-body">-->
-
-<!--                {% csrf_token %}-->
-<!--                {{ form.as_p }}-->
-<!--                <button type="submit" class="btn btn-outline-success">-->
-<!--                    {% if object %}-->
-<!--                    Сохранить-->
-<!--                    {% else %}-->
-<!--                    Добавить-->
-<!--                    {% endif %}-->
-<!--                </button>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="col-6">-->
-<!--        <div class="card">-->
-<!--            Родословная-->
-<!--        </div>-->
-<!--        <div class="card-body">-->
-<!--            {{ formset.management_form }}-->
-<!--            {% for form in formset.forms %}-->
-<!--            {{ form.as_p }}-->
-<!--            {% if not forloop.last %}-->
-<!--            <hr>-->
-<!--            {% endif %}-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</form>-->
-
-
 {% block content %}
 <form method="post" enctype="multipart/form-data" class="row">
     <div class="col-6">
