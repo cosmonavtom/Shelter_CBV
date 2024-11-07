@@ -1,9 +1,10 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from django.forms import inlineformset_factory
 
 from dogs.models import Category, Dog, Parent
@@ -75,10 +76,15 @@ class DogDeactivateListView(LoginRequiredMixin, ListView):
 class DogCreateView(LoginRequiredMixin, CreateView):
     model = Dog
     form_class = DogForm
-    template_name = 'dogs/create.html'
+    template_name = 'dogs/create_update.html'
     success_url = reverse_lazy('dogs:list_dogs')
 
     def form_valid(self, form):
+        # Запрет на создание пёселя по доступу
+        if self.request.user.role != UserRoles.ADMIN:
+            raise PermissionDenied()
+        #     return HttpResponseForbidden('У вас нет права доступа!') # если ожидается перенаправление
+
         self.object = form.save()
         self.object.owner = self.request.user
         self.object.save()
@@ -127,15 +133,19 @@ class DogUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class DogDeleteView(DeleteView):
+class DogDeleteView(PermissionRequiredMixin, DeleteView):
     model = Dog
     template_name = 'dogs/delete.html'
     success_url = reverse_lazy('dogs:list_dogs')
+    permission_required = 'dogs.delete_dog'
+    # dogs.add_dog - PermissionRequiredMixin + CreateView
+    # dogs.change_dog - PermissionRequiredMixin + UpdateView
+    # dogs.view_dog - PermissionRequiredMixin + DetailView
 
 
 def dog_toggle_activity(request, pk):
     dog_item = get_object_or_404(Dog, pk=pk)
-    if dog_item.is_active :
+    if dog_item.is_active:
         dog_item.is_active = False
     else:
         dog_item.is_active = True

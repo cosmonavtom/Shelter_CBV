@@ -17,10 +17,10 @@
             {% if user.authentication and object.owner == user or user.is_staff %}
             <a class="btn btn-lg byn-block btn-outline-warning"
                href="{% url 'dogs:update_dog' object.pk %}">
-                {% if users.is_superuser %}
-                Изменить/Удалить
-                {% elif object.owner == user or user.is_staff%}
-                Изменить
+                {% if user.is_superuser %}
+                    Изменить/Удалить
+                {% elif object.owner == user or user.is_staff %}
+                    Изменить
                 {% endif %}
             </a>
             {% endif %}
