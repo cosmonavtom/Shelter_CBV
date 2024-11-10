@@ -51,7 +51,7 @@ class DogListView(LoginRequiredMixin, ListView):
     }
     template_name = 'dogs/dogs.html '
 
-    def qet_queryset(self):
+    def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(is_active=True)
         return queryset
@@ -64,7 +64,7 @@ class DogDeactivateListView(LoginRequiredMixin, ListView):
     }
     template_name = 'dogs/dogs.html '
 
-    def qet_queryset(self):
+    def get_queryset(self):
         queryset = super().get_queryset()
         if self.request.user.role in [UserRoles.MODERATOR, UserRoles.ADMIN]:
             queryset = queryset.filter(is_active=False)
