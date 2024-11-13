@@ -25,6 +25,7 @@ class Dog(models.Model):
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE,
                               verbose_name='владелец')
+    views = models.IntegerField(default=0, verbose_name='просмотры')
 
     def __str__(self):
         return f'{self.name} ({self.category})'
@@ -32,6 +33,10 @@ class Dog(models.Model):
     class Meta:
         verbose_name = 'dog'
         verbose_name_plural = 'dogs'
+
+    def views_count(self):
+        self.views += 1
+        self.save()
 
 
 class Parent(models.Model):
@@ -46,23 +51,3 @@ class Parent(models.Model):
     class Meta:
         verbose_name = 'parent'
         verbose_name_plural = 'parents'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

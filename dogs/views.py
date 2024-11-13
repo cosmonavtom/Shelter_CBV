@@ -8,7 +8,8 @@ from django.http import Http404, HttpResponseForbidden
 from django.forms import inlineformset_factory
 
 from dogs.models import Category, Dog, Parent
-from dogs.forms import DogForm, ParentForm
+from dogs.forms import DogForm, ParentForm, DogAdminForm
+from dogs.services import send_views_mail
 
 from users.models import UserRoles
 
@@ -96,10 +97,23 @@ class DogDetailView(LoginRequiredMixin, DetailView):
     model = Dog
     template_name = 'dogs/detail.html'
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        object = self.get_object()
+        context_data['title'] = f'{object.name} {object.category}'
+        dog_object_increase = get_object_or_404(Dog, pk=object.pk)
+        if object.owner != self.request.user and self.request.user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
+        # if object.owner != self.request.user:
+            dog_object_increase.views_count()
+        if object.owner:
+            object_owner_email = object.owner.email
+            if dog_object_increase.views % 10 == 0 and dog_object_increase.views != 0:
+                send_views_mail(dog_object_increase.name, object_owner_email, dog_object_increase.views)
+        return context_data
+
 
 class DogUpdateView(LoginRequiredMixin, UpdateView):
     model = Dog
-    form_class = DogForm
     template_name = 'dogs/create_update.html'
 
     def get_success_url(self):
@@ -110,6 +124,16 @@ class DogUpdateView(LoginRequiredMixin, UpdateView):
         if self.object.owner != self.request.user and not self.request.user.is_staff:
             raise Http404
         return self.object
+
+    def get_form_class(self):
+        dog_forms = {
+            'admin': DogAdminForm,
+            'moderator': DogForm,
+            'user': DogForm,
+        }
+        user_role = self.request.user.role
+        dog_form_class = dog_forms[user_role]
+        return dog_form_class
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
