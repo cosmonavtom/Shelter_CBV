@@ -25,7 +25,7 @@ class ReviewListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class DeactivatedDogReviewListView(LoginRequiredMixin, ListView):
+class DeactivatedReviewListView(LoginRequiredMixin, ListView):
     model = Review
     extra_context = {
         'title': 'Неактивные отзывы'
@@ -75,8 +75,8 @@ class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
         return reverse('reviews:list_reviews')
 
 
-def review_toggle_activity(request, sjug):
-    review_item = get_object_or_404(Review, slug=sjug)
+def review_toggle_activity(request, slug):
+    review_item = get_object_or_404(Review, slug=slug)
     if review_item.sign_of_review:
         review_item.sign_of_review = False
         review_item.save()
