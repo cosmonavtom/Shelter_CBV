@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import render
 from django.http import HttpResponseForbidden
 from django.shortcuts import reverse, get_object_or_404, redirect
-from django.views.generic import CreateView, CreateView, DeleteView, UpdateView, ListView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
 from django.core.exceptions import PermissionDenied
 
 from reviews.models import Review
@@ -40,18 +40,18 @@ class DeactivatedDogReviewListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class ReviewCreateView(CreateView):
+class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
     form_class = ReviewForm
-    template_name = 'reviews/review_create_review.html'
+    template_name = 'reviews/review_create_update.html'
 
 
-class ReviewDetailView(LoginRequiredMixin, DeleteView):
+class ReviewDetailView(LoginRequiredMixin, DetailView):
     model = Review
     template_name = 'reviews/review_detail.html'
 
 
-class ReviewUpdateView(LoginRequiredMixin, DeleteView):
+class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     template_name = 'reviews/review_create_update.html'
