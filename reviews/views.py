@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from reviews.models import Review
+from users.models import UserRoles
+from reviews.forms import ReviewForm
 
 
 class DogReviewListView(LoginRequiredMixin, ListView):
@@ -14,7 +16,7 @@ class DogReviewListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(dog_pk=self.kwargs.get('pk'))
+        # queryset = queryset.filter(dog_pk=self.kwargs.get('pk'))
         queryset = queryset.filter(sign_of_review=True)
 
         return queryset
@@ -29,7 +31,7 @@ class DeactivatedDogReviewListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(dog_pk=self.kwargs.get('pk'))
+        # queryset = queryset.filter(dog_pk=self.kwargs.get('pk'))
         queryset = queryset.filter(sign_of_review=False)
 
         return queryset
