@@ -52,7 +52,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         if self.object.slug == 'temp_slug':
             self.object.slug = slug_generator()
             print(self.object.slug)
-        self.object.autor = self.request.user
+        self.object.author = self.request.user
         self.object.save()
         return super().form_valid(form)
 
@@ -70,11 +70,13 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('reviews:detail_review', args=[self.kwargs.get('slug')])
 
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        if self.object.author != self.request.user and self.request.user not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
-            raise PermissionDenied()
-        return self.object
+    # def get_object(self, queryset=None):
+    #     self.object = super().get_object(queryset)
+    #     # if self.object.author != self.request.user and self.request.user not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
+    #     #     raise PermissionDenied()
+    #     if self.request.user not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
+    #         raise PermissionDenied()
+    #     return self.object
 
 
 class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
