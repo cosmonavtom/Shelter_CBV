@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # добавленные приложения
     'users',
     'dogs',
+    'reviews',
 ]
 
 MIDDLEWARE = [
