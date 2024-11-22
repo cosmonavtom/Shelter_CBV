@@ -37,3 +37,10 @@ footer p {
 }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.round-image {
+    width: 300;
+    height: 300;
+    border-radius: 50%;
+    object-fit: cover;
+}
