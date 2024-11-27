@@ -16,6 +16,7 @@ from users.models import UserRoles
 
 
 def index(request):
+    ''' Контент главной страницы. Содержит название и первые три породы '''
     context = {
         'object_list': Category.objects.all()[:3],
         'title': 'Питомник - Главная'
@@ -24,6 +25,7 @@ def index(request):
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
+    ''' Содержит все породы питомника '''
     model = Category
     extra_context = {
         'title': 'Питомник - Все наши породы'
@@ -32,6 +34,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
 
 class DogCategoryListView(LoginRequiredMixin, ListView):
+    ''' Возвращает всех собак выбранной породы '''
     model = Dog
     template_name = 'dogs/dogs.html'
 
@@ -47,6 +50,7 @@ class DogCategoryListView(LoginRequiredMixin, ListView):
 
 
 class DogListView(LoginRequiredMixin, ListView):
+    ''' Возвращает всех собак питомника, по три на страницу '''
     model = Dog
     paginate_by = 3
     extra_context = {
@@ -61,9 +65,11 @@ class DogListView(LoginRequiredMixin, ListView):
 
 
 class DogDeactivateListView(LoginRequiredMixin, ListView):
+    ''' Возвращает всех неактивных собак(is_active=False). Доступно для
+        админа и модератора. Владелец может посмотреть только своих неактивных '''
     model = Dog
     extra_context = {
-        'title': 'Питомник - неактивный собаки!',
+        'title': 'Питомник - неактивные собаки!',
     }
     template_name = 'dogs/dogs.html '
 
@@ -77,7 +83,7 @@ class DogDeactivateListView(LoginRequiredMixin, ListView):
 
 
 class DogSearchListView(LoginRequiredMixin, ListView):
-    """ Класс ищет собак по кличкам и возвращает найденное """
+    """ Класс ищет активных собак по кличкам по запросу и возвращает найденное """
     model = Dog
     template_name = 'dogs/dogs.html'
     extra_context = {
@@ -92,7 +98,7 @@ class DogSearchListView(LoginRequiredMixin, ListView):
 
 
 class CategorySearchListView(LoginRequiredMixin, ListView):
-    """ Класс ищет породы и возвращает найденное """
+    """ Класс ищет породы по запросу и возвращает найденное """
     model = Category
     template_name = 'dogs/categories.html'
     extra_context = {
@@ -107,6 +113,7 @@ class CategorySearchListView(LoginRequiredMixin, ListView):
 
 
 class DogCreateView(LoginRequiredMixin, CreateView):
+    ''' Добавление новой собаки. Доступно только админу '''
     model = Dog
     form_class = DogForm
     template_name = 'dogs/create_update.html'
@@ -126,6 +133,7 @@ class DogCreateView(LoginRequiredMixin, CreateView):
 
 
 class DogDetailView(LoginRequiredMixin, DetailView):
+    ''' Детальная информация о собаке. '''
     model = Dog
     template_name = 'dogs/detail.html'
 
@@ -145,6 +153,7 @@ class DogDetailView(LoginRequiredMixin, DetailView):
 
 
 class DogUpdateView(LoginRequiredMixin, UpdateView):
+    ''' Обновление инфы о собаке. Возможность добавить/удалить родословную. Для админа '''
     model = Dog
     template_name = 'dogs/create_update.html'
 
@@ -190,6 +199,7 @@ class DogUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class DogDeleteView(PermissionRequiredMixin, DeleteView):
+    ''' Удаление собаки.'''
     model = Dog
     template_name = 'dogs/delete.html'
     success_url = reverse_lazy('dogs:list_dogs')
@@ -200,6 +210,7 @@ class DogDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 def dog_toggle_activity(request, pk):
+    ''' Метод для переключения активности собаки '''
     dog_item = get_object_or_404(Dog, pk=pk)
     if dog_item.is_active:
         dog_item.is_active = False
