@@ -6,6 +6,7 @@ from dogs.models import Category, Dog
 
 
 def get_categories_cache():
+    ''' Кеширование для пород '''
     if settings.CACHE_ENABLED:
         key = 'category_list'
         category_list = cache.get(key)
@@ -19,6 +20,7 @@ def get_categories_cache():
 
 
 def send_views_mail(dog_object, owner_email, views_count):
+    ''' Спам для владельцев собак с сообщением о кол-ве просмотров собаки '''
     send_mail(
         subject=f'{views_count} просмотров {dog_object}',
         message=f'Уже {views_count} просмотров записи {dog_object}',
