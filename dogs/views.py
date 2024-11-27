@@ -78,7 +78,10 @@ class DogDeactivateListView(LoginRequiredMixin, ListView):
 
 class DogSearchListView(LoginRequiredMixin, ListView):
     model = Dog
-    template_name = 'dogs/dogs_search_results.html'
+    template_name = 'dogs/dogs.html'
+    extra_context = {
+        'title': 'Результаты поиска',
+    }
 
     def get_queryset(self):
         query = self.request.GET.get('q')
