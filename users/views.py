@@ -14,6 +14,7 @@ from users.services import send_register_email, send_new_password
 
 
 class UserRegisterView(CreateView):
+    ''' Вьюшка регистрации пользователя с отправкой письма на почту '''
     model = User
     form_class = UserRegisterForm
     success_url = reverse_lazy('users:login_user')
@@ -26,11 +27,13 @@ class UserRegisterView(CreateView):
 
 
 class UserLoginView(LoginView):
+    ''' Вьюшка логина '''
     template_name = 'users/login_user.html'
     form_class = UserLoginForm
 
 
 class UserProfileView(UpdateView):
+    ''' Профайл пользователя(направлен только на read_only) '''
     model = User
     form_class = UserForm
     template_name = 'users/user_profile_read_only.html'
@@ -40,6 +43,7 @@ class UserProfileView(UpdateView):
 
 
 class UserUpdateView(UpdateView):
+    ''' Вьюшка изменения данных пользователя '''
     model = User
     form_class = UserUpdateForm
     template_name = 'users/update_user.html'
@@ -50,16 +54,19 @@ class UserUpdateView(UpdateView):
 
 
 class UserPasswordChangeView(PasswordChangeView):
+    ''' Изменения пароля пользователя '''
     form_class = UserPasswordChangeForm
     template_name = 'users/change_password_user.html'
     success_url = reverse_lazy('users:profile_user')
 
 
 class UserLogoutView(LogoutView):
+    ''' Выход из профиля '''
     template_name = 'users/logout_user.html'
 
 
 class UserListView(LoginRequiredMixin, ListView):
+    ''' Все активные зарегистрированные пользователи, не более 3х на страницу. '''
     model = User
     paginate_by = 3
     extra_context = {
@@ -74,12 +81,14 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 class UserViewProfileView(DetailView):
+    ''' Вьюшка профиля любого активного пользователя '''
     model = User
     template_name = 'users/user_view_profile.html'
 
 
 @login_required
 def user_generate_new_password(request):
+    ''' Генерация псевдо-случайного пароля с отправкой на почту '''
     new_password = ''.join(random.sample((string.ascii_letters + string.digits), 12))
     request.user.set_password(new_password)
     request.user.save()

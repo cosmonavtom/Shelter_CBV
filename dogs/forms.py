@@ -7,12 +7,14 @@ from users.forms import StyleFormMixin
 
 
 class DogForm(StyleFormMixin, forms.ModelForm):
+    ''' Форма для собаки с ограниченными полями '''
     class Meta:
         model = Dog
         exclude = ('owner', 'is_active', 'views')
 
 
 class DogAdminForm(StyleFormMixin, forms.ModelForm):
+    ''' Администраторская форма со всеми полями и проверкой на возраст '''
     class Meta:
         model = Dog
         fields = '__all__'
@@ -30,6 +32,7 @@ class DogAdminForm(StyleFormMixin, forms.ModelForm):
 
 
 class ParentForm(StyleFormMixin, forms.ModelForm):
+    ''' Форма для родословной '''
     class Meta:
         model = Parent
         fields = '__all__'
