@@ -37,7 +37,7 @@ class DogCategoryListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(
-            category_id=self.kwargs.get('pk'),
+            category_id=self.kwargs.get('pk'), is_active=True,
         )
         # Показывает только своих собак
         # if not self.request.user.is_staff:
@@ -77,15 +77,32 @@ class DogDeactivateListView(LoginRequiredMixin, ListView):
 
 
 class DogSearchListView(LoginRequiredMixin, ListView):
+    """ Класс ищет собак по кличкам и возвращает найденное """
     model = Dog
     template_name = 'dogs/dogs.html'
     extra_context = {
-        'title': 'Результаты поиска',
+        'title': 'Результаты поиска по кличке',
     }
 
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Dog.objects.filter(Q(name__icontains=query), is_active=True)
+
+        return object_list
+
+
+class CategorySearchListView(LoginRequiredMixin, ListView):
+    """ Класс ищет породы и возвращает найденное """
+    model = Category
+    template_name = 'dogs/categories.html'
+    extra_context = {
+        'title': 'Результаты поиска по породе',
+    }
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Category.objects.filter(Q(name__icontains=query),)
+
         return object_list
 
 
