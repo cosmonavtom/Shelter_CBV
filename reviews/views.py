@@ -12,6 +12,7 @@ from reviews.utils import slug_generator
 
 
 class ReviewListView(LoginRequiredMixin, ListView):
+    ''' Возвращает все активные отзывы о собаках. Пагинация = 3 '''
     model = Review
     paginate_by = 3
     extra_context = {
@@ -27,6 +28,7 @@ class ReviewListView(LoginRequiredMixin, ListView):
 
 
 class ReviewDeactivatedListView(LoginRequiredMixin, ListView):
+    ''' Возвращает все неактивные отзывы о собаках '''
     model = Review
     extra_context = {
         'title': 'Неактивные отзывы'
@@ -41,6 +43,7 @@ class ReviewDeactivatedListView(LoginRequiredMixin, ListView):
 
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
+    ''' Создание отзыва с уникальным слагом. Права у админа и у юзера. '''
     model = Review
     form_class = ReviewForm
     template_name = 'reviews/review_create_update.html'
@@ -59,11 +62,13 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
 
 
 class ReviewDetailView(LoginRequiredMixin, DetailView):
+    ''' Детальная информация по отзыву '''
     model = Review
     template_name = 'reviews/review_detail.html'
 
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
+    ''' Изменения отзыва. Изменять отзывы может админ или владелец отзыва '''
     model = Review
     form_class = ReviewForm
     template_name = 'reviews/review_create_update.html'
@@ -81,6 +86,7 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
+    ''' Удаление отзыва, доступно только для админа '''
     model = Review
     template_name = 'reviews/review_delete.html'
     permission_required = 'reviews.delete_review'
@@ -90,6 +96,7 @@ class ReviewDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 def review_toggle_activity(request, slug):
+    ''' Метод изменяющий активность отзыва '''
     review_item = get_object_or_404(Review, slug=slug)
     if review_item.sign_of_review:
         review_item.sign_of_review = False
