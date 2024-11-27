@@ -37,3 +37,16 @@ redis-server
 python manage.py runserver
 ```
 
+## Расшифровка env-файла
+MS_SQL_USER= имя пользователя в ДБ
+MS_SQL_SERVER= сервер
+MS_SQL_DATABASE= название ДБ
+MS_SQL_KEY= пароль в ДБ
+
+CACHE_ENABLED= кеширование (TRUE)
+CACHE_LOCATION=redis://127.0.0.1:6379 
+
+YANDEX_PASSWORD_APP= пароль для рассылки из YANDEX
+EMAIL_HOST_USER= почта на яндексе откуда будет производиться рассылка
+
+
